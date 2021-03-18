@@ -16,7 +16,7 @@ app.use(errorHandler);
 const Note = require('./models').Note;
 
 // 列出所有条目
-app.get('/api/items', (request, response) => {
+app.get('/api/items', (request, response, next) => {
   const { keyword = '' } = request.query
   Note.find({ content: { $regex: keyword } })
     .then((result) => response.json({ message: 'success', data: result }))
@@ -24,7 +24,7 @@ app.get('/api/items', (request, response) => {
 })
 
 // 查询单个条目
-app.get('/api/items/:id', (request, response) => {
+app.get('/api/items/:id', (request, response, next) => {
   const { id } = request.params
   Note.findById(id)
     .then((result) => {
@@ -38,7 +38,7 @@ app.get('/api/items/:id', (request, response) => {
 })
 
 // 创建新条目
-app.post('/api/items', (request, response) => {
+app.post('/api/items', (request, response, next) => {
   const { content } = request.body
   var id = mongoose.Types.ObjectId();
   const note = new Note({
@@ -55,7 +55,7 @@ app.post('/api/items', (request, response) => {
 })
 
 // 修改重要性
-app.patch('/api/items/:id/important', (request, response) => {
+app.patch('/api/items/:id/important', (request, response, next) => {
   const { important } = request.body
   const { id } = request.params
   Note.findByIdAndUpdate(id, { important: important })
@@ -64,7 +64,7 @@ app.patch('/api/items/:id/important', (request, response) => {
 })
 
 // 修改完成状态
-app.patch('/api/items/:id/isCompleted', (request, response) => {
+app.patch('/api/items/:id/isCompleted', (request, response, next) => {
   const { isCompleted } = request.body
   const { id } = request.params
   Note.findByIdAndUpdate(id, { isCompleted: isCompleted })
@@ -73,7 +73,7 @@ app.patch('/api/items/:id/isCompleted', (request, response) => {
 })
 
 // 删除条目
-app.delete('/api/items/:id', (request, response) => {
+app.delete('/api/items/:id', (request, response, next) => {
   const { id } = request.params
   Note.findByIdAndDelete(id)
     .then(result => response.json({ message: 'delete success', data: result }))
