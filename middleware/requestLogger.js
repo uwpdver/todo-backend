@@ -3,6 +3,6 @@ const requestLogger = (request, response, next) => {
   console.log('Path:', request.path)
   console.log('Body:', request.body)
   next()
-};
+}
 
-module.exports = requestLogger;
+module.exports = requestLogger

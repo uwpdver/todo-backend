@@ -1,19 +1,19 @@
 require('dotenv').config()
 
-const express = require('express');
-const mongoose = require('mongoose');
-const morgan = require('morgan');
-const cors = require('cors');
+const express = require('express')
+const mongoose = require('mongoose')
+const morgan = require('morgan')
+const cors = require('cors')
 const errorHandler = require('./middleware').errorHandler
-const app = express();
+const app = express()
 
 app.use(express.static('build'))
-app.use(cors());
-app.use(express.json());
-app.use(morgan('tiny'));
-app.use(errorHandler);
+app.use(cors())
+app.use(express.json())
+app.use(morgan('tiny'))
+app.use(errorHandler)
 
-const Note = require('./models').Note;
+const Note = require('./models').Note
 
 // 列出所有条目
 app.get('/api/items', (request, response, next) => {
@@ -31,7 +31,7 @@ app.get('/api/items/:id', (request, response, next) => {
       if (result) {
         response.json({ message: 'success', data: result })
       } else {
-        response.status(404).end();
+        response.status(404).end()
       }
     })
     .catch(error => next(error))
@@ -40,7 +40,7 @@ app.get('/api/items/:id', (request, response, next) => {
 // 创建新条目
 app.post('/api/items', (request, response, next) => {
   const { content } = request.body
-  var id = mongoose.Types.ObjectId();
+  var id = mongoose.Types.ObjectId()
   const note = new Note({
     id: id,
     content: content,
