@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(morgan('tiny'));
 app.use(express.static('build'))
 
-const Note = require('./models/note');
+const Note = require('./models').Note;
 
 // 列出所有条目
 app.get('/api/items', (request, response) => {
