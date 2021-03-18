@@ -1,8 +1,14 @@
 const mongoose = require('mongoose')
 
 const noteSchema = new mongoose.Schema({
-  content: String,
-  id: String,
+  content: {
+    type: String,
+    maxlength: 256,
+    required: true
+  },
+  id: {
+    required: true
+  },
   date: Date,
   important: Boolean,
   isCompleted: Boolean
