@@ -13,11 +13,9 @@ console.log(Note);
 
 // 列出所有条目
 app.get('/items', (request, response) => {
-  Note.find({})
+  const { keyword = '' } = request.query
+  Note.find({ content: { $regex: keyword } })
     .then((result) => {
-      result.forEach(note => {
-        console.log(note)
-      })
       return response.json({
         message: 'success',
         data: result
@@ -33,7 +31,6 @@ app.get('/items/:id', (request, response) => {
   const { id } = request.params
   Note.findById(id)
     .then((result) => {
-      console.log(result)
       return response.json({
         message: 'success',
         data: result
@@ -47,7 +44,6 @@ app.get('/items/:id', (request, response) => {
 // 创建新条目
 app.post('/items', (request, response) => {
   const { content } = request.body
-  console.log(`content: ${content}`)
   var id = mongoose.Types.ObjectId();
   const note = new Note({
     id: id,
@@ -77,7 +73,6 @@ app.patch('/items/:id/important', (request, response) => {
   console.log(important, id)
   Note.findByIdAndUpdate(id, { important: important })
     .then((result) => {
-      console.log(result)
       return response.json({
         message: 'update success',
         data: result
@@ -96,10 +91,10 @@ app.patch('/items/:id/isCompleted', (request, response) => {
   Note.findByIdAndUpdate(id, { isCompleted: isCompleted })
     .then((result) => {
       console.log(result)
-      return response.json({ 
+      return response.json({
         message: 'update success',
         data: result
-       })
+      })
     })
     .catch(err => {
       console.log(err)
@@ -112,10 +107,10 @@ app.delete('/items/:id', (request, response) => {
   Note.findByIdAndDelete(id)
     .then((result) => {
       console.log(result)
-      return response.json({ 
+      return response.json({
         message: 'delete success',
         data: result
-       })
+      })
     })
     .catch(err => {
       console.log(err)
