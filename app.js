@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 
 const todoRouter = require('./controllers/todo')
 
-console.log(config)
+logger.info('connecting to', config.MONGODB_URI)
 
 logger.info('connecting to', config.MONGODB_URL)
 
