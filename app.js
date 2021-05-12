@@ -7,19 +7,20 @@ const logger = require('./utils/logger')
 const mongoose = require('mongoose')
 
 const todoRouter = require('./controllers/todo')
+const rssRouter = require('./controllers/rss')
 
 console.log(config)
 
 logger.info('connecting to', config.MONGODB_URL)
 
-mongoose.connect(config.MONGODB_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true
-})
-  .then(() => logger.info('connected to MongoDB success'))
-  .catch((error) => logger.info('error connecting to MongoDB:', error.message))
+// mongoose.connect(config.MONGODB_URL, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useFindAndModify: false,
+//   useCreateIndex: true
+// })
+//   .then(() => logger.info('connected to MongoDB success'))
+//   .catch((error) => logger.info('error connecting to MongoDB:', error.message))
 
 const app = express()
 require('express-async-errors')
@@ -29,6 +30,7 @@ app.use(express.json())
 app.use(morgan('tiny'))
 
 app.use('/api/items', todoRouter)
+app.use('/api/rss', rssRouter)
 
 app.use(middleware.errorHandler)
 
