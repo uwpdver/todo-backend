@@ -7,7 +7,6 @@ const logger = require('./utils/logger')
 const mongoose = require('mongoose')
 
 const todoRouter = require('./controllers/todo')
-const rssRouter = require('./controllers/rss')
 
 logger.info('connecting to', config.MONGODB_URI)
 
@@ -28,7 +27,6 @@ app.use(express.json())
 app.use(morgan('tiny'))
 
 app.use('/api/items', todoRouter)
-app.use('/api/rss', rssRouter)
 
 app.use(middleware.errorHandler)
 
